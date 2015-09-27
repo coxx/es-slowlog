@@ -11,6 +11,7 @@ It is mainly intended as helper tool for slowlog analysis and to produce input d
 go get github.com/coxx/es-slowlog/cmd/es-slowlog-parse
 ```
 
+
 ### Examples
 
 Write all queries to standard output
@@ -23,6 +24,10 @@ Convert slowlog to tab-separated file
 cat *_search_slowlog.log | es-slowlog-parse -f '{{.Index}}\t{{.Types}}\t{{.SearchType}}\t{{.Source}}'
 ```
 
+Produce [vegeta](https://github.com/coxx/vegeta) target file (use patched version until https://github.com/tsenart/vegeta/pull/148 is closed)
+```
+cat *_search_slowlog.log | es-slowlog-parse -f vegeta -a localhost:9200
+```
 
 
 ### Notes

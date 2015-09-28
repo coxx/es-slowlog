@@ -15,8 +15,9 @@ func main() {
 
 	stderr := log.New(os.Stderr, "", 0)
 
+	flag.Usage = usage
 	flagUsage := flag.Bool("h", false, "Print usage")
-	flagFormat := flag.String("f", defaultFormat, "Format template")
+	flagFormat := flag.String("f", defaultFormat, "Output format")
 	flagAddress := flag.String("a", "", "Target address")
 	flag.Parse()
 	if *flagUsage {

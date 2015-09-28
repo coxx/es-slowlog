@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"fmt"
+	"net/url"
 	"strconv"
 	"strings"
 	"text/template"
@@ -47,6 +49,32 @@ func vegetaFormater(targetAddress string) formaterFunc {
 	}
 }
 
+func tankFormater(targetAddress string) (formaterFunc, error) {
+	const format = `GET /{{.Index}}/{{.Types}}/_search?search_type={{.SearchType}} HTTP/1.1
+Host: %s
+
+{{.Source}}`
+	// set Host header
+	url, errUrl := url.Parse(cleanupAddress(targetAddress))
+	if errUrl != nil {
+		return nil, errUrl
+	}
+	host := url.Host
+	tmpl, errTmpl := template.New("").Parse(fmt.Sprintf(format, host))
+	if errTmpl != nil {
+		return nil, errTmpl
+	}
+
+	return func(rec parser.LogRecord) (string, error) {
+		s, err := applyTemplate(tmpl, rec)
+		if err != nil {
+			return "", err
+		}
+		s = fmt.Sprint(len(s)+2, "\n", s, "\n")
+		return s, nil
+	}, nil
+}
+
 func customFormater(format string) (formaterFunc, error) {
 	//var errUnquote error
 	format, errUnquote := strconv.Unquote(`"` + format + `"`)
@@ -66,13 +94,12 @@ func customFormater(format string) (formaterFunc, error) {
 func newFormater(format, address string) (formaterFunc, error) {
 	switch format {
 	case "vegeta":
-		formater := vegetaFormater(address)
-		return formater, nil
+		return vegetaFormater(address), nil
+	case "tank":
+		return tankFormater(address)
 	case "":
-		formater := defaultFormater()
-		return formater, nil
+		return defaultFormater(), nil
 	default:
-		formater, err := customFormater(format)
-		return formater, err
+		return customFormater(format)
 	}
 }

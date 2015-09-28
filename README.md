@@ -2,7 +2,9 @@
 
 This tool allows to read [ElasticSearch slowlog](https://www.elastic.co/guide/en/elasticsearch/reference/2.0/index-modules-slowlog.html) records and produce output using  [text/template](https://golang.org/pkg/text/template/) format.
 
-It is mainly intended as helper tool for slowlog analysis and to produce input data for load testing tools. There is predefined output formats for:
+It is mainly intended as helper tool for slowlog analysis and to produce input data for load testing tools. 
+
+There is predefined output formats for:
  - [Vegeta](https://github.com/coxx/vegeta) (use patched version until https://github.com/tsenart/vegeta/pull/148 is closed)
  - [Yandex Tank](https://github.com/yandex/yandex-tank)
 

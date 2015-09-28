@@ -24,7 +24,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if *flagFormat == "vegeta" && *flagAddress == "" {
+	if (*flagFormat == "vegeta" || *flagFormat == "tank") && *flagAddress == "" {
 		stderr.Fatalln("Target address should be specified")
 	}
 

@@ -1,5 +1,7 @@
 ## ElasticSearch slowlog parser
 
+[![Coverage Status](https://coveralls.io/repos/coxx/es-slowlog/badge.svg?branch=master&service=github)](https://coveralls.io/github/coxx/es-slowlog?branch=master)
+
 This tool allows to read [ElasticSearch slowlog](https://www.elastic.co/guide/en/elasticsearch/reference/2.0/index-modules-slowlog.html) records and produce output using  [text/template](https://golang.org/pkg/text/template/) format.
 
 It is mainly intended as helper tool for slowlog analysis and to produce input data for load testing tools. 
